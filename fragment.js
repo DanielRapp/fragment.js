@@ -40,7 +40,7 @@ window.fragment = { render: null };
     });
   });
 
-  var fragments = document.querySelectorAll('[data-fragment]:not([data-fragment-json]');
+  var fragments = document.querySelectorAll('[data-fragment]:not([data-fragment-json])');
   Array.prototype.forEach.call(fragments, function(element) {
     var htmlUrl = element.getAttribute('data-fragment');
 
@@ -51,9 +51,9 @@ window.fragment = { render: null };
 
   var fragments = document.querySelectorAll('[data-fragment-json]:not([data-fragment])');
   Array.prototype.forEach.call(fragments, function(element) {
-    var jsonUrl = element.getAttribute('data-fragment');
+    var jsonUrl = element.getAttribute('data-fragment-json');
 
-    load(jsonUrl, function(html) {
+    load(jsonUrl, function(json) {
       element.innerHTML = window.fragment.render(element.innerHTML, JSON.parse(json));
     });
   });
