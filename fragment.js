@@ -1,4 +1,4 @@
-window.fragment = { render: null };
+window.fragment = { render: null, html: 'fragment', json: 'fragment-json' };
 
 (function(fragment) {
   if (fragment.render === null) {
@@ -28,7 +28,7 @@ window.fragment = { render: null };
     xhr.send();
   };
 
-  var fragments = document.querySelectorAll('[data-fragment][data-fragment-json]');
+  var fragments = document.querySelectorAll('[data-'+fragment.html+'][data-'+fragment.json+']');
   Array.prototype.forEach.call(fragments, function(element) {
     var htmlUrl = element.getAttribute('data-fragment');
     var jsonUrl = element.getAttribute('data-fragment-json');
@@ -40,16 +40,21 @@ window.fragment = { render: null };
     });
   });
 
-  var fragments = document.querySelectorAll('[data-fragment]:not([data-fragment-json])');
+  var fragments = document.querySelectorAll('[data-'+fragment.html+']:not([data-'+fragment.json+'])');
   Array.prototype.forEach.call(fragments, function(element) {
     var htmlUrl = element.getAttribute('data-fragment');
 
     load(htmlUrl, function(html) {
-      element.innerHTML = html;
+      if (element.innerHTML == '') {
+        element.innerHTML = html;
+      }
+      else {
+        element.innerHTML = window.fragment.render(html, JSON.parse(element.innerHTML));
+      }
     });
   });
 
-  var fragments = document.querySelectorAll('[data-fragment-json]:not([data-fragment])');
+  var fragments = document.querySelectorAll('[data-'+fragment.json+']:not([data-'+fragment.html+'])');
   Array.prototype.forEach.call(fragments, function(element) {
     var jsonUrl = element.getAttribute('data-fragment-json');
 

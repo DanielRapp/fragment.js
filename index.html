@@ -19,37 +19,59 @@
       <header>
         <h1>fragment.js</h1>
         <p class="lead">
-          A minimalistic (0.4kB gzipped) tool for easily loading html fragments.
+          A tiny (457 bytes gzipped) tool for easily loading html fragments.
         </p>
       </header>
-      <hr>
 
+      <hr>
       <h4>Example</h4>
       <p class="description">
-        To use fragment.js is as easy as setting the <code>data-fragment</code> attribute.
+        Fragment.js allows you to load html fragments into any element, by
+        just adding a <code>data-fragment</code> attribute.
       </p>
       <pre class="prettyprint lang-html">
-        &lt;div data-fragment="fragment.html"&gt;&lt;/div&gt;
+&lt;div data-fragment="<a href="fragment.html">fragment.html</a>"&gt;&lt;/div&gt;
       </pre>
       <pre data-fragment="fragment.html"></pre>
 
       <hr>
       <h4>Templating example</h4>
       <p class="description">
-        If either Mustache, Handlebars or Underscore
+        You can also use it for loading templates
+        with the <code>data-fragment-json</code> attribute.
+        <a href="http://mustache.github.com/">Mustache</a>,
+        <a href="http://handlebarsjs.com/">Handlebars</a> and
+        <a href="http://underscorejs.org/">Underscore</a> are supported by default
+        and will automatically be used if they're available in the global scope.
+        But you can just override the <code>window.fragment.render</code> function
+        if you want to use something else.
       </p>
       <pre class="prettyprint lang-html">
-        &lt;div data-fragment="mustache-fragment.html"
-             data-fragment-json="fragment.json"&gt;&lt;/div&gt;
+&lt;div data-fragment-json="<a href="fragment.json">fragment.json</a>"&gt;This is {{adjective}}!&lt;/div&gt;
       </pre>
+      <pre data-fragment-json="fragment.json">This is {{adjective}}!</pre>
 
-      111 <pre data-fragment="mustache-fragment.html" data-fragment-json="fragment.json">test</pre>
-      110 <pre data-fragment="mustache-fragment.html" data-fragment-json="fragment.json"></pre>
-      101 <pre data-fragment="mustache-fragment.html">{{adjective}}</pre>
-      100 <pre data-fragment="mustache-fragment.html"></pre>
-      011 <pre data-fragment-json="fragment.json">{{adjective}}</pre>
-      010 <pre data-fragment-json="fragment.json"></pre>
-      001 <pre>test</pre>
+      <hr>
+      <h4>HTML as JSON</h4>
+      <p class="description">
+        If the element already has an innerHTML, you only use the <code>data-fragment</code> attribute,
+        and don't provide a custom renderer; fragment.js will attempt to render Mustache, Handlebars then Underscore
+        with the innerHTML as input.
+      </p>
+      <pre class="prettyprint lang-html">
+&lt;div data-fragment="<a href="mustache-fragment.html">mustache-fragment.html</a>"&gt;{"adjective":"fantastic"}&lt;/div&gt;
+      </pre>
+      <pre data-fragment="mustache-fragment.html">{"adjective":"fantastic"}</pre>
+
+      <hr>
+      <h4>Combining</h4>
+      <p class="description">
+        Of course, combining the two attributes also works.
+      </p>
+      <pre class="prettyprint lang-html">
+&lt;div data-fragment="<a href="mustache-fragment.html">mustache-fragment.html</a>" data-fragment-json="<a href="fragment.json">fragment.json</a>"&gt;&lt;/div&gt;
+      </pre>
+      <pre data-fragment="mustache-fragment.html" data-fragment-json="fragment.json"></pre>
 
       <hr>
         <footer class="footer">

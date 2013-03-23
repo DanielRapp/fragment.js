@@ -20,6 +20,7 @@ pre {
   padding-top: 20px !important;
   background: white;
   border: 1px solid #e1e1e8;
+  text-align: center;
 }
 
 button[data-incrementor] {
