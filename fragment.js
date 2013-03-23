@@ -28,19 +28,33 @@ window.fragment = { render: null };
     xhr.send();
   };
 
-  var fragments = document.querySelectorAll('[data-fragment]');
+  var fragments = document.querySelectorAll('[data-fragment][data-fragment-json]');
   Array.prototype.forEach.call(fragments, function(element) {
-    var url = element.getAttribute('data-fragment')
-    load(url, function(html) {
-      var jsonUrl = element.getAttribute('data-fragment-json')
-      if (jsonUrl !== null) {
-        load(jsonUrl, function(json) {
-          element.innerHTML = window.fragment.render(html, JSON.parse(json));
-        });
-      }
-      else {
-        element.innerHTML = html;
-      }
+    var htmlUrl = element.getAttribute('data-fragment');
+    var jsonUrl = element.getAttribute('data-fragment-json');
+
+    load(htmlUrl, function(html) {
+      load(jsonUrl, function(json) {
+        element.innerHTML = window.fragment.render(html, JSON.parse(json));
+      });
+    });
+  });
+
+  var fragments = document.querySelectorAll('[data-fragment]:not([data-fragment-json])');
+  Array.prototype.forEach.call(fragments, function(element) {
+    var htmlUrl = element.getAttribute('data-fragment');
+
+    load(htmlUrl, function(html) {
+      element.innerHTML = html;
+    });
+  });
+
+  var fragments = document.querySelectorAll('[data-fragment-json]:not([data-fragment])');
+  Array.prototype.forEach.call(fragments, function(element) {
+    var jsonUrl = element.getAttribute('data-fragment-json');
+
+    load(jsonUrl, function(json) {
+      element.innerHTML = window.fragment.render(element.innerHTML, JSON.parse(json));
     });
   });
 })(fragment);
