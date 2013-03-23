@@ -18,14 +18,28 @@ window.fragment = { render: null, html: 'fragment', json: 'fragment-json' };
   }
 
   var load = function(url, callback) {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.onreadystatechange = function() {
-      if (xhr.readyState === 4 && xhr.status === 200) {
-        callback(xhr.responseText);
-     }
+    var parser = document.createElement('a');
+    parser.href = url;
+    if (parser.search.indexOf('callback') === -1) {
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', url);
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          callback(xhr.responseText);
+       }
+      }
+      xhr.send();
     }
-    xhr.send();
+    // JSONP
+    else {
+      var script = document.createElement('script');
+      script.src = url;
+
+      var jsonpCallback = url.match(/callback=([^&]+)/)[1];
+      script.onload = function(e) {
+        console.log(e)
+      };
+    }
   };
 
   var fragments = document.querySelectorAll('[data-'+fragment.html+'][data-'+fragment.json+']');
