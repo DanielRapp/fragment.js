@@ -23,6 +23,10 @@ pre {
   text-align: center;
 }
 
+pre.nocenter {
+  text-align: left;
+}
+
 button[data-incrementor] {
   margin-right: 20px;
 }

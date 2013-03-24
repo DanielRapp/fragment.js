@@ -19,7 +19,7 @@
       <header>
         <h1>fragment.js</h1>
         <p class="lead">
-          A tiny (475 bytes gzipped) tool for easily loading html fragments and templates.
+          A tiny (625 bytes gzipped) tool for easily loading html fragments and templates.
         </p>
       </header>
 
@@ -72,6 +72,32 @@
 &lt;div data-fragment="<a href="mustache-fragment.html">mustache-fragment.html</a>" data-fragment-json="<a href="fragment.json">fragment.json</a>"&gt;&lt;/div&gt;
       </pre>
       <pre data-fragment="mustache-fragment.html" data-fragment-json="fragment.json"></pre>
+
+      <hr>
+      <h4>JSONP example</h4>
+      <p class="description">
+        If the window hostname isn't the same as the json url hostname, it'll try to use jsonp.
+        By default it uses <code>callback</code> as the callback parameter, but you can change it by changing <code>fragment.jsonp</code>
+      </p>
+<pre class="prettyprint lang-html nocenter">
+&lt;div data-fragment-json="<a href="http://search.twitter.com/search.json?q=javascript&rpp=2">http://search.twitter.com/search.json?q=javascript&rpp=2</a>"&gt;
+{{#results}}
+&lt;p&gt;
+  {{from_user}} said:
+  {{text}}
+&lt;/p&gt;
+{{/results}}
+&lt;/div&gt;
+</pre>
+
+<pre data-fragment-json="http://search.twitter.com/search.json?q=javascript&rpp=2">
+{{#results}}
+<p>
+{{from_user}} said:
+{{text}}
+</p>
+{{/results}}
+</pre>
 
       <hr>
         <footer class="footer">
