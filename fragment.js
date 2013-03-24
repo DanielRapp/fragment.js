@@ -1,4 +1,4 @@
-window.fragment = { render: null, html: 'fragment', json: 'fragment-json' };
+window.fragment = { render: null, html: 'fragment', json: 'fragment-json', jsonp: 'callback' };
 
 (function(fragment) {
   if (fragment.render === null) {
@@ -20,7 +20,8 @@ window.fragment = { render: null, html: 'fragment', json: 'fragment-json' };
   var load = function(url, callback) {
     var parser = document.createElement('a');
     parser.href = url;
-    if (parser.search.indexOf('callback') === -1) {
+
+    if (parser.hostname == window.location.hostname) {
       var xhr = new XMLHttpRequest();
       xhr.open('GET', url);
       xhr.onreadystatechange = function() {
@@ -32,13 +33,13 @@ window.fragment = { render: null, html: 'fragment', json: 'fragment-json' };
     }
     // JSONP
     else {
+      url += (parser.search == '' ? '?' : '&') + fragment.jsonp + '=JSONPCallback';
       var script = document.createElement('script');
       script.src = url;
-
-      var jsonpCallback = url.match(/callback=([^&]+)/)[1];
-      script.onload = function(e) {
-        console.log(e)
+      JSONPCallback = function(d) {
+        callback(JSON.stringify(d));
       };
+      document.getElementsByTagName('head')[0].appendChild(script);
     }
   };
 
