@@ -27,7 +27,7 @@ window.fragment = { render: null, html: 'fragment', json: 'fragment-json', jsonp
       xhr.onreadystatechange = function() {
         if (xhr.readyState === 4 && xhr.status === 200) {
           callback(xhr.responseText);
-       }
+        }
       }
       xhr.send();
     }
