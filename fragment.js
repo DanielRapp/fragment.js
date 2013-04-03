@@ -25,7 +25,8 @@ window.fragment = { render: null, html: 'fragment', json: 'fragment-json', jsonp
       var xhr = new XMLHttpRequest();
       xhr.open('GET', url);
       xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4 && xhr.status === 200) {
+        var status = xhr.status
+        if (xhr.readyState === 4 && ((status >= 200 && status < 300) || status == 304)) {
           callback(xhr.responseText);
         }
       }
