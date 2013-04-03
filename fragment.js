@@ -34,8 +34,8 @@ window.fragment = { render: null, html: 'fragment', json: 'fragment-json', jsonp
     // JSONP
     else {
       url += (parser.search == '' ? '?' : '&') + fragment.jsonp + '=JSONPCallback';
-      var script = document.createElement('script'),
-          parent;
+      var script = document.createElement('script');
+      var parent;
       script.src = url;
       JSONPCallback = function(d) {
         callback(JSON.stringify(d));
@@ -50,17 +50,17 @@ window.fragment = { render: null, html: 'fragment', json: 'fragment-json', jsonp
     }
   };
   
-  var status = false, 
-      stack = [];
+  var status = false; 
+  var stack = [];
   
   function ready(fn){
-    if(typeof fn != "function" || Object.prototype.toString.call(fn) != "[object Function]") {
+    if(typeof fn != 'function' || Object.prototype.toString.call(fn) != '[object Function]') {
       return;
     }
     if(status) {
-        setTimeout(fn, 0);
+      setTimeout(fn, 0);
     } else {
-        stack.push(fn);
+      stack.push(fn);
     }
   }
   
@@ -78,10 +78,15 @@ window.fragment = { render: null, html: 'fragment', json: 'fragment-json', jsonp
   }
   
   setTimeout(updateStatus, 10);
-
-  ready(function(){
-    var fragments = document.querySelectorAll('[data-'+fragment.html+'][data-'+fragment.json+']');
-    Array.prototype.forEach.call(fragments, function(element) {
+  
+  var each = [].forEach
+  
+  function evaluate(scope){
+    if(!scope || !scope.querySelectorAll) {
+      scope = document;
+    }
+    var fragments = scope.querySelectorAll('[data-'+fragment.html+'][data-'+fragment.json+']');
+    each.call(fragments, function(element) {
       var htmlUrl = element.getAttribute('data-fragment');
       var jsonUrl = element.getAttribute('data-fragment-json');
   
@@ -92,8 +97,8 @@ window.fragment = { render: null, html: 'fragment', json: 'fragment-json', jsonp
       });
     });
   
-    var fragments = document.querySelectorAll('[data-'+fragment.html+']:not([data-'+fragment.json+'])');
-    Array.prototype.forEach.call(fragments, function(element) {
+    fragments = scope.querySelectorAll('[data-'+fragment.html+']:not([data-'+fragment.json+'])');
+    each.call(fragments, function(element) {
       var htmlUrl = element.getAttribute('data-fragment');
   
       load(htmlUrl, function(html) {
@@ -106,13 +111,20 @@ window.fragment = { render: null, html: 'fragment', json: 'fragment-json', jsonp
       });
     });
   
-    var fragments = document.querySelectorAll('[data-'+fragment.json+']:not([data-'+fragment.html+'])');
-    Array.prototype.forEach.call(fragments, function(element) {
+    fragments = scope.querySelectorAll('[data-'+fragment.json+']:not([data-'+fragment.html+'])');
+    each.call(fragments, function(element) {
       var jsonUrl = element.getAttribute('data-fragment-json');
   
       load(jsonUrl, function(json) {
         element.innerHTML = window.fragment.render(element.innerHTML, JSON.parse(json));
       });
     });
-  });
+  }
+  
+  ready(evaluate);
+  
+  fragment.evaluate = function(){
+    ready(evaluate);
+  }
+
 })(fragment);
