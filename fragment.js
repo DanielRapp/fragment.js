@@ -120,9 +120,7 @@ window.fragment = { render: null, html: 'fragment', json: 'fragment-json', jsonp
       });
     });
   }
-  
-  ready(evaluate);
-  
+    
   fragment.evaluate = function(){
     ready(evaluate);
   }
