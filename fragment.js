@@ -4,8 +4,9 @@
     render: null,
     html: 'fragment',
     json: 'fragment-json',
-    jsonp: 'callback'
-  }
+    jsonp: 'callback',
+    manual: false
+  };
 
   if (fragment.render === null) {
     fragment.render = function(html, json) {
@@ -130,10 +131,16 @@
     });
   };
 
-  fragment.evaluate = function(){
+  fragment.evaluate = function() {
     ready(evaluate);
   };
 
+  // Autoload
+  if (!fragment.manual) {
+    fragment.evaluate();
+  }
+
+  fragment.ready = ready;
   win.fragment = fragment;
 
 })(window, window.document);
