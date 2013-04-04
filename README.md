@@ -60,11 +60,14 @@ fragment.jsonp = 'callback';
 
 ### JavaScript interface
 
-To evaluate an element, or the complete document manually.
+To manually evaluate an element, or the complete document manually,
+set the `manual` toggle to true (BEFORE including the script).
 
 ```javascript
-fragment.evaluate(element); // limited scope
-fragment.evaluate(); // document
+fragment = { manual: true };
+
+fragment.evaluate(element); // evaluate just one element
+fragment.evaluate(); // evaluate the whole document
 ```
 
 Install
