@@ -42,7 +42,6 @@ Of course, combining the two attributes also works.
 ```
 
 ## Configuring fragment.js
----
 
 ### Overriding
 
