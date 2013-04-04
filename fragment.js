@@ -93,6 +93,7 @@
     if (!scope || !scope.querySelectorAll) {
       scope = doc;
     }
+
     var fragments = scope.querySelectorAll('[data-'+fragment.html+'][data-'+fragment.json+']');
     each.call(fragments, function(element) {
       var htmlUrl = element.getAttribute('data-fragment');
@@ -127,12 +128,12 @@
         element.innerHTML = fragment.render(element.innerHTML, JSON.parse(json));
       });
     });
-  }
+  };
 
   fragment.evaluate = function(){
     ready(evaluate);
-  }
+  };
 
-  win.fragment = fragment
+  win.fragment = fragment;
 
 })(window, window.document);
