@@ -1,10 +1,10 @@
 ;(function(win, doc) {
 
-  var fragment = { 
-    render: null, 
-    html: 'fragment', 
-    json: 'fragment-json', 
-    jsonp: 'callback' 
+  var fragment = {
+    render: null,
+    html: 'fragment',
+    json: 'fragment-json',
+    jsonp: 'callback'
   }
 
   if (fragment.render === null) {
@@ -38,6 +38,7 @@
       }
       xhr.send();
     }
+
     // JSONP
     else {
       url += (parser.search == '' ? '?' : '&') + fragment.jsonp + '=JSONPCallback';
@@ -48,7 +49,7 @@
         callback(JSON.stringify(d));
         JSONPCallback = null;
         parent = script.parentNode;
-        if(parent) {
+        if (parent) {
           parent.removeChild(script);
         }
         script = null;
@@ -57,39 +58,39 @@
     }
   };
 
-  var status = false; 
+  var status = false;
   var stack = [];
 
-  function ready(fn){
-    if(typeof fn != 'function' || Object.prototype.toString.call(fn) != '[object Function]') {
+  var ready = function(fn){
+    if (typeof fn != 'function' || Object.prototype.toString.call(fn) != '[object Function]') {
       return;
     }
-    if(status) {
+    if (status) {
       setTimeout(fn, 0);
     } else {
       stack.push(fn);
     }
   }
 
-  function updateStatus(){ 
-    if(!/in/.test(doc.readyState) && doc.body) {
+  var updateStatus = function() {
+    if (!/in/.test(doc.readyState) && doc.body) {
       status = true;
-      stack.forEach(function(fn){ 
-        setTimeout(fn, 0); 
+      stack.forEach(function(fn) {
+        setTimeout(fn, 0);
       })
       stack = [];
     }
-    if(!status) {
+    if (!status) {
       setTimeout(updateStatus, 10);
     }
   }
 
   setTimeout(updateStatus, 10);
 
-  var each = [].forEach
+  var each = [].forEach;
 
-  function evaluate(scope){
-    if(!scope || !scope.querySelectorAll) {
+  var evaluate = function(scope){
+    if (!scope || !scope.querySelectorAll) {
       scope = doc;
     }
     var fragments = scope.querySelectorAll('[data-'+fragment.html+'][data-'+fragment.json+']');
