@@ -54,6 +54,15 @@ fragment.json = 'json';
 <div data-src="mustache-fragment.html" data-json="fragment.json"></div>
 ```
 
+### JavaScript interface
+
+To evaluate an element, or the complete document manually. 
+
+```javascript
+fragment.evaluate(element); // limited scope
+fragment.evaluate(); // document
+``` 
+
 Install
 ---
 
