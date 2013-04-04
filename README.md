@@ -41,6 +41,9 @@ Of course, combining the two attributes also works.
 <div data-fragment="mustache-fragment.html" data-fragment-json="fragment.json"></div>
 ```
 
+## Configuring fragment.js
+---
+
 ### Overriding
 
 To override the attribute names, just change `fragment.html` and `fragment.json`
@@ -48,16 +51,26 @@ To override the attribute names, just change `fragment.html` and `fragment.json`
 ```javascript
 fragment.html = 'src';
 fragment.json = 'json';
+fragment.jsonp = 'callback';
 ```
 
 ```html
 <div data-src="mustache-fragment.html" data-json="fragment.json"></div>
 ```
 
+### JavaScript interface
+
+To evaluate an element, or the complete document manually.
+
+```javascript
+fragment.evaluate(element); // limited scope
+fragment.evaluate(); // document
+```
+
 Install
 ---
 
-Simply use [bower](http://twitter.github.com/bower/)
+Simply use [bower](http://twitter.github.com/bower/). Don't forget to include the library near the closing body tag.
 ```
 bower install fragment
 ```
