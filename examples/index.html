@@ -3,7 +3,10 @@
   <body>
     <div data-fragment="fragment.html"></div>
     <div data-fragment="mustache_fragment.html" data-fragment-json="fragment.json"></div>
+
+    <script>fragment = { manual: true };</script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.2/mustache.min.js"></script>
     <script src="../fragment.js"></script>
+    <script>fragment.evaluate()</script>
   </body>
 </html>

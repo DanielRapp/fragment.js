@@ -1,14 +1,15 @@
 ;(function(win, doc) {
 
-  var fragment = {
-    render: null,
-    html: 'fragment',
-    json: 'fragment-json',
-    jsonp: 'callback',
-    manual: false
-  };
+  // Extend fragment with defaults
+  var fragment = win.fragment || {};
+  fragment.html = fragment.html || 'fragment';
+  fragment.json = fragment.json || 'fragment-json';
+  fragment.jsonp = fragment.jsonp || 'callback';
+  if (fragment.manual === undefined) {
+    fragment.manual = false;
+  }
 
-  if (fragment.render === null) {
+  if (fragment.render === undefined) {
     fragment.render = function(html, json) {
       var output = html;
 
