@@ -83,7 +83,7 @@ fragment.evaluate(); // evaluate the whole document
 Install
 ---
 
-Simply use [bower](http://twitter.github.com/bower/). Don't forget to include the library near the closing body tag.
+Simply use [bower](http://twitter.github.com/bower/).
 ```
 bower install fragment
 ```
