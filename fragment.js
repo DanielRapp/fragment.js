@@ -91,7 +91,7 @@
 
   var each = [].forEach;
 
-  var evaluate = function(scope){
+  var evaluate = function(scope) {
     if (!scope || !scope.querySelectorAll) {
       scope = doc;
     }
@@ -100,6 +100,9 @@
     each.call(fragments, function(element) {
       var htmlUrl = element.getAttribute('data-fragment');
       var jsonUrl = element.getAttribute('data-fragment-json');
+      var media = element.getAttribute('data-fragment-media');
+
+      if ( media && matchMedia && matchMedia(media).matches === false ) return;
 
       load(htmlUrl, function(html) {
         load(jsonUrl, function(json) {
@@ -111,6 +114,9 @@
     fragments = scope.querySelectorAll('[data-'+fragment.html+']:not([data-'+fragment.json+'])');
     each.call(fragments, function(element) {
       var htmlUrl = element.getAttribute('data-fragment');
+      var media = element.getAttribute('data-fragment-media');
+
+      if ( media && matchMedia && matchMedia(media).matches === false ) return;
 
       load(htmlUrl, function(html) {
         if (element.innerHTML == '') {
@@ -125,6 +131,9 @@
     fragments = scope.querySelectorAll('[data-'+fragment.json+']:not([data-'+fragment.html+'])');
     each.call(fragments, function(element) {
       var jsonUrl = element.getAttribute('data-fragment-json');
+      var media = element.getAttribute('data-fragment-media');
+
+      if ( media && matchMedia && matchMedia(media).matches === false ) return;
 
       load(jsonUrl, function(json) {
         element.innerHTML = fragment.render(element.innerHTML, JSON.parse(json));

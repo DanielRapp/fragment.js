@@ -41,6 +41,14 @@ Of course, combining the two attributes also works.
 <div data-fragment="mustache-fragment.html" data-fragment-json="fragment.json"></div>
 ```
 
+### Media queries
+
+To only load certain fragments dependning on media queries, use the `data-fragment-media` attribute.
+
+```html
+<div data-fragment="fragment.html" data-fragment-media="(max-width: 250px)"></div>
+```
+
 ## Configuring fragment.js
 
 ### Overriding
@@ -50,7 +58,6 @@ To override the attribute names, just change `fragment.html` and `fragment.json`
 ```javascript
 fragment.html = 'src';
 fragment.json = 'json';
-fragment.jsonp = 'callback';
 ```
 
 ```html
