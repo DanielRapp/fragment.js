@@ -47,6 +47,9 @@ window.fragment = { render: null, html: 'fragment', json: 'fragment-json', jsonp
   Array.prototype.forEach.call(fragments, function(element) {
     var htmlUrl = element.getAttribute('data-fragment');
     var jsonUrl = element.getAttribute('data-fragment-json');
+    
+    var media = element.getAttribute('data-fragment-media');
+    if( media && matchMedia && matchMedia(media).matches === false ) return;
 
     load(htmlUrl, function(html) {
       load(jsonUrl, function(json) {
@@ -58,7 +61,10 @@ window.fragment = { render: null, html: 'fragment', json: 'fragment-json', jsonp
   var fragments = document.querySelectorAll('[data-'+fragment.html+']:not([data-'+fragment.json+'])');
   Array.prototype.forEach.call(fragments, function(element) {
     var htmlUrl = element.getAttribute('data-fragment');
-
+    
+    var media = element.getAttribute('data-fragment-media');
+    if( media && matchMedia && matchMedia(media).matches === false ) return;
+    
     load(htmlUrl, function(html) {
       if (element.innerHTML == '') {
         element.innerHTML = html;
@@ -72,6 +78,9 @@ window.fragment = { render: null, html: 'fragment', json: 'fragment-json', jsonp
   var fragments = document.querySelectorAll('[data-'+fragment.json+']:not([data-'+fragment.html+'])');
   Array.prototype.forEach.call(fragments, function(element) {
     var jsonUrl = element.getAttribute('data-fragment-json');
+    
+    var media = element.getAttribute('data-fragment-media');
+    if( media && matchMedia && matchMedia(media).matches === false ) return;
 
     load(jsonUrl, function(json) {
       element.innerHTML = window.fragment.render(element.innerHTML, JSON.parse(json));
