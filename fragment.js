@@ -166,7 +166,7 @@
                 if ( context.hasOwnProperty(attrname) == false ) context[attrname] = scopeContext[attrname]; 
             }
           }
-        element.innerHTML = fragment.render(element.innerHTML, JSON.parse(context));
+        element.innerHTML = fragment.render(element.innerHTML, context);
         evaluate(element, context);
       });
     });
