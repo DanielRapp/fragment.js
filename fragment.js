@@ -1,7 +1,7 @@
 ;(function(win, doc) {
 
   // Extend fragment with defaults
-  var fragment = win.fragment || {};
+  var fragment = {};
   fragment.html = fragment.html || 'fragment';
   fragment.json = fragment.json || 'fragment-json';
   fragment.jsonp = fragment.jsonp || 'callback';
@@ -150,6 +150,12 @@
     fragment.evaluate();
   }
 
-  win.fragment = fragment;
+  if (typeof exports == "object") {
+    module.exports = fragment;
+  } else if (typeof define == "function" && define.amd) {
+    define(function(){ return fragment; });
+  } else {
+    win.fragment = fragment;
+  }
 
 })(window, window.document);
