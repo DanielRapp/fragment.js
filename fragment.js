@@ -5,6 +5,10 @@
   fragment.html = fragment.html || 'fragment';
   fragment.json = fragment.json || 'fragment-json';
   fragment.jsonp = fragment.jsonp || 'callback';
+
+  //Use String.prototype.trim() if available? jQuery.trim()?
+  fragment.trim = function (str) { return str.replace(/^\s\s*/, '').replace(/\s\s*$/, ''); }
+
   if (fragment.manual === undefined) {
     fragment.manual = false;
   }
@@ -35,6 +39,7 @@
       xhr.onreadystatechange = function() {
         var status = xhr.status
         if (xhr.readyState === 4 && ((status >= 200 && status < 300) || status == 304)) {
+          this.onreadystatechange = null;
           callback(xhr.responseText);
         }
       }
@@ -91,7 +96,7 @@
 
   var each = [].forEach;
 
-  var evaluate = function(scope) {
+  var evaluate = function(scope, scopeContext) {
     if (!scope || !scope.querySelectorAll) {
       scope = doc;
     }
@@ -106,7 +111,14 @@
 
       load(htmlUrl, function(html) {
         load(jsonUrl, function(json) {
-          element.innerHTML = fragment.render(html, JSON.parse(json));
+          context = JSON.parse(json)
+          if ( !scopeContext ) {
+            for (var attrname in scopeContext) { 
+                if ( context.hasOwnProperty(attrname) == false ) context[attrname] = scopeContext[attrname]; 
+            }
+          }
+          element.innerHTML = fragment.render(html, context);
+          evaluate(element, context);
         });
       });
     });
@@ -119,11 +131,23 @@
       if ( media && matchMedia && matchMedia(media).matches === false ) return;
 
       load(htmlUrl, function(html) {
-        if (element.innerHTML == '') {
-          element.innerHTML = html;
+        if (fragment.trim(element.innerHTML) == '') {
+          if ( scopeContext ) {
+            element.innerHTML = fragment.render(html, scopeContext);
+          } else {
+            element.innerHTML = html;
+          }
+          evaluate(element, scopeContext);
         }
         else {
-          element.innerHTML = fragment.render(html, JSON.parse(element.innerHTML));
+          context = JSON.parse(element.innerHTML)
+          if ( !scopeContext ) {
+            for (var attrname in scopeContext) { 
+                if ( context.hasOwnProperty(attrname) == false ) context[attrname] = scopeContext[attrname]; 
+            }
+          }
+          element.innerHTML = fragment.render(html, context);
+          evaluate(element, context);
         }
       });
     });
@@ -136,7 +160,14 @@
       if ( media && matchMedia && matchMedia(media).matches === false ) return;
 
       load(jsonUrl, function(json) {
-        element.innerHTML = fragment.render(element.innerHTML, JSON.parse(json));
+          context = JSON.parse(json)
+          if ( !scopeContext ) {
+            for (var attrname in scopeContext) { 
+                if ( context.hasOwnProperty(attrname) == false ) context[attrname] = scopeContext[attrname]; 
+            }
+          }
+        element.innerHTML = fragment.render(element.innerHTML, context);
+        evaluate(element, context);
       });
     });
   };
