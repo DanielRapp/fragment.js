@@ -85,7 +85,7 @@ Install
 
 Simply use [bower](http://twitter.github.com/bower/).
 ```
-bower install fragment
+bower install fragment.js
 ```
 
 Contact
