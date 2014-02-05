@@ -165,7 +165,7 @@
       max_fragments = num_fragments;
     }
     if (num_fragments == 0) {
-      fragment.onload(max_fragments);
+      fragment.ready(max_fragments);
     }
   };
 
@@ -177,7 +177,7 @@
     manual: false,
     render: render,
     evaluate: evaluate,
-    onload: function(){}
+    ready: function(){}
   });
 
   // Autoload
