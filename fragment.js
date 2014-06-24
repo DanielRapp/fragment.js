@@ -52,6 +52,14 @@
     doc.getElementsByTagName('head')[0].appendChild(script);
   };
 
+  var evalJs = function(element){
+    //Evaluate found script tags
+    var scripts = element.getElementsByTagName('script');
+    for (var idx=0; idx < scripts.length; idx++){
+      eval(scripts[idx].text);
+    }    
+  }
+
   var load = function(url, callback) {
     // We'll need something that can easily parse urls
     var url_parser = doc.createElement('a');
@@ -98,6 +106,7 @@
     var html_url = element.getAttribute('data-'+fragment.html);
     var json_url = element.getAttribute('data-'+fragment.json);
     var media = element.getAttribute('data-fragment-media');
+    var js_eval = element.getAttribute('data-eval-js'); //must eval script elements?
 
     // Don't load anything if the media query doesn't match
     if ( media && win.matchMedia && !win.matchMedia(media).matches ) return;
@@ -114,17 +123,26 @@
       load(html_url, function(html) {
         load(json_url, function(json) {
           resource_loaded(render_template.bind(this, element, html, json));
+          if(js_eval){
+            evalJs(element);
+          }
         });
       });
     }
     else if (fragment_type.html) {
       load(html_url, function(html) {
         resource_loaded(render_html.bind(this, element, html));
+        if(js_eval){
+          evalJs(element);
+        }
       });
     }
     else if (fragment_type.json) {
       load(json_url, function(json) {
         resource_loaded(render_json.bind(this, element, json));
+        if(js_eval){
+          evalJs(element);
+        }
       });
     }
   };
