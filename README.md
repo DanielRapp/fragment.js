@@ -49,6 +49,15 @@ To only load certain fragments dependning on media queries, use the `data-fragme
 <div data-fragment="fragment.html" data-fragment-media="(max-width: 250px)"></div>
 ```
 
+### Script Execution
+
+One may want to have scripts on any of the imported sections evaluated after an import. By default this is turned off
+but by setting `data-eval-js` to `true`, scripts on the imported fragment will be executed. This execution will happen on the final html after any templating and interpolation steps.
+
+```html
+<div data-fragment="fragment.html" data-eval-js="true"></div>
+```
+
 ## Configuring fragment.js
 
 ### Overriding
