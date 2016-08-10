@@ -79,7 +79,7 @@
     // If the innerHTML is nonempty: the context is interpreted as the
     // combination of the JSONified innerHTML and the existing context.
     // The JSONified innerHTML has a higher precedence over the existing context.
-    if (element.innerHTML != "") {
+    if (element.innerHTML.trim() != "") {
       context = extend(JSON.parse(element.innerHTML), context);
     }
 
